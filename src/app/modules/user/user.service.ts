@@ -15,7 +15,17 @@ const getAllUsers = async (): Promise<Iuser[]> => {
   return result;
 };
 
+const specificUserById = async (id: number): Promise<Iuser | null> => {
+  if ((await User.isUserExists(id)) === null) {
+    throw new Error('User donot exists!');
+  }
+
+  const result = await User.find({ userId: id });
+  return result;
+};
+
 export const UserManagementService = {
   createUser,
   getAllUsers,
+  specificUserById,
 };

@@ -1,7 +1,7 @@
-import { Document, Query, Schema, model } from 'mongoose';
-import { Iuser } from '../user/user.interface';
+import { Document, Model, Query, Schema, model } from 'mongoose';
+import { Iuser, UserModel } from '../user/user.interface';
 
-const userSchema = new Schema<Iuser>({
+const userSchema = new Schema<Iuser, UserModel>({
   userId: {
     type: Number,
     unique: true,
@@ -55,6 +55,11 @@ const userSchema = new Schema<Iuser>({
     },
   },
 });
+
+userSchema.statics.isUserExists = async function (id: number) {
+  const existingUser = await User.findOne({ userId: id });
+  return existingUser;
+};
 
 const User = model<Iuser>('User', userSchema);
 

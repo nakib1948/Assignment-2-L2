@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 interface Iuser {
   userId: number;
   username: string;
@@ -15,6 +17,9 @@ interface Iuser {
     city: string;
     country: string;
   };
+}
+export interface UserModel extends Model<Iuser> {
+  isUserExists(id: number): Promise<Iuser | null>;
 }
 
 export { Iuser };
