@@ -20,7 +20,6 @@ const createUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
       message: 'User creation failed.Try again',
@@ -54,9 +53,9 @@ const getAllUsers = async (req: Request, res: Response) => {
 };
 const specificUserById = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
+    const userId = parseInt(req.params.userId);
 
-    const result1 = await UserManagementService.specificUserById(id);
+    const result1 = await UserManagementService.specificUserById(userId);
     const { password, ...result } = await result1[0].toObject();
 
     res.status(200).json({
@@ -79,7 +78,7 @@ const specificUserById = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
   try {
     const userData = req.body;
-    const userId = parseInt(req.params.id);
+    const userId = parseInt(req.params.userId);
     const useZodvalidationData = userUpdateValidationSchema.parse(userData);
     const result1 = await UserManagementService.updateUser(
       userId,
@@ -105,8 +104,8 @@ const updateUser = async (req: Request, res: Response) => {
 
 const deleteUser = async (req: Request, res: Response) => {
   try {
-    const id = parseInt(req.params.id);
-    await UserManagementService.deleteUser(id);
+    const userId = parseInt(req.params.userId);
+    await UserManagementService.deleteUser(userId);
     res.status(200).json({
       status: true,
       message: 'User deleted successfully',
@@ -133,7 +132,7 @@ const addOrder = async (req: Request, res: Response) => {
       userId,
       useZodvalidationData,
     );
-    console.log(result);
+
     res.status(200).json({
       status: true,
       message: 'Order created successfully!',
@@ -174,6 +173,34 @@ const singleUserOrder = async (req: Request, res: Response) => {
   }
 };
 
+const userOrderPrice = async (req: Request, res: Response) => {
+  try {
+    const userId = parseInt(req.params.userId);
+
+    const result = await UserManagementService.userOrderPrice(userId);
+    const result1 = result[0].orders;
+
+    const totalPrice: number = result1.reduce((acc, order: number): number => {
+      return acc + order.price * order.quantity;
+    }, 0);
+
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: { totalPrice },
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: {
+        code: 404,
+        description: error,
+      },
+    });
+  }
+};
+
 export const userController = {
   createUser,
   getAllUsers,
@@ -182,4 +209,5 @@ export const userController = {
   deleteUser,
   addOrder,
   singleUserOrder,
+  userOrderPrice,
 };
