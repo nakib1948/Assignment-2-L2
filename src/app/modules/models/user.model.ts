@@ -54,6 +54,16 @@ const userSchema = new Schema<Iuser, UserModel>({
       required: [true, 'Conutry address id required'],
     },
   },
+  orders: {
+    type: [
+      {
+        productName: String,
+        price: Number,
+        quantity: Number,
+      },
+    ],
+    default: [],
+  },
 });
 
 userSchema.statics.isUserExists = async function (id: number) {

@@ -17,6 +17,15 @@ export const createUserValidationSchema = z.object({
     city: z.string().min(1, 'City address must not be empty'),
     country: z.string().min(1, 'Country address must not be empty'),
   }),
+  orders: z
+    .array(
+      z.object({
+        productName: z.string(),
+        price: z.number().positive(),
+        quantity: z.number().positive(),
+      }),
+    )
+    .optional(),
 });
 
 export const userUpdateValidationSchema = z.object({
@@ -43,4 +52,19 @@ export const userUpdateValidationSchema = z.object({
         .optional(),
     })
     .optional(),
+  orders: z
+    .array(
+      z.object({
+        productName: z.string(),
+        price: z.number().positive(),
+        quantity: z.number().positive(),
+      }),
+    )
+    .optional(),
+});
+
+export const orderValidationSchema = z.object({
+  productName: z.string(),
+  price: z.number(),
+  quantity: z.number(),
 });

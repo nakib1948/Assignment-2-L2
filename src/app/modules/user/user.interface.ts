@@ -17,6 +17,11 @@ interface Iuser {
     city: string;
     country: string;
   };
+  orders?: {
+    productName: string;
+    price: number;
+    quantity: number;
+  }[];
 }
 export interface UserModel extends Model<Iuser> {
   isUserExists(id: number): Promise<Iuser | null>;

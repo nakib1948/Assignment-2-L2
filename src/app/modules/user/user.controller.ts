@@ -3,6 +3,7 @@ import { UserManagementService } from './user.service';
 import {
   createUserValidationSchema,
   userUpdateValidationSchema,
+  orderValidationSchema,
 } from './user.validation';
 
 const createUser = async (req: Request, res: Response) => {
@@ -123,10 +124,38 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+const addOrder = async (req: Request, res: Response) => {
+  try {
+    const orderData = req.body;
+    const userId = parseInt(req.params.userId);
+    const useZodvalidationData = await orderValidationSchema.parse(orderData);
+    const result = await UserManagementService.addOrder(
+      userId,
+      useZodvalidationData,
+    );
+    console.log(result);
+    res.status(200).json({
+      status: true,
+      message: 'Order created successfully!',
+      data: null,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: {
+        code: 404,
+        description: error,
+      },
+    });
+  }
+};
+
 export const userController = {
   createUser,
   getAllUsers,
   specificUserById,
   updateUser,
   deleteUser,
+  addOrder,
 };
