@@ -4,6 +4,7 @@ import { Iuser } from '../user/user.interface'
 const userSchema = new Schema<Iuser>({
     userId: {
     type: Number,
+    unique: true,
     required: [true, 'userId is required'],
   },
   username: {
