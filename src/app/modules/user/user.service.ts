@@ -27,10 +27,15 @@ const updateUser = async (
   userId: number,
   userData: Iuser,
 ): Promise<Iuser | null> => {
-  const result = await User.findOneAndUpdate({ userId: userId }, userData, {
+  const result = await User.findOneAndUpdate({ userId }, userData, {
     new: true,
   });
 
+  return result;
+};
+
+const deleteUser = async (userId: number): Promise<Iuser | null> => {
+  const result = await User.findOneAndDelete({ userId });
   return result;
 };
 export const UserManagementService = {
@@ -38,4 +43,5 @@ export const UserManagementService = {
   getAllUsers,
   specificUserById,
   updateUser,
+  deleteUser,
 };
