@@ -23,9 +23,19 @@ const specificUserById = async (id: number): Promise<Iuser | null> => {
   const result = await User.find({ userId: id });
   return result;
 };
+const updateUser = async (
+  userId: number,
+  userData: Iuser,
+): Promise<Iuser | null> => {
+  const result = await User.findOneAndUpdate({ userId: userId }, userData, {
+    new: true,
+  });
 
+  return result;
+};
 export const UserManagementService = {
   createUser,
   getAllUsers,
   specificUserById,
+  updateUser,
 };

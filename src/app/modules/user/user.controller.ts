@@ -75,8 +75,36 @@ const specificUserById = async (req: Request, res: Response) => {
   }
 };
 
+const updateUser = async (req: Request, res: Response) => {
+  try {
+    const userData = req.body;
+    const userId = parseInt(req.params.id);
+    const useZodvalidationData = userUpdateValidationSchema.parse(userData);
+    const result1 = await UserManagementService.updateUser(
+      userId,
+      useZodvalidationData,
+    );
+    const { password, ...result } = await result1.toObject();
+    res.status(200).json({
+      status: true,
+      message: 'User updated successfully',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: {
+        code: 404,
+        description: error,
+      },
+    });
+  }
+};
+
 export const userController = {
   createUser,
   getAllUsers,
   specificUserById,
+  updateUser,
 };
