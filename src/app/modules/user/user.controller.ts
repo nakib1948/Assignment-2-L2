@@ -87,7 +87,7 @@ const updateUser = async (req: Request, res: Response) => {
     const { password, ...result } = await result1.toObject();
     res.status(200).json({
       status: true,
-      message: 'User updated successfully',
+      message: 'User updated successfully!',
       data: result,
     });
   } catch (error: any) {
