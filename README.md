@@ -1,5 +1,5 @@
 
-# Assignment-2-L2-
+# Assignment-2-L2
 
 ## Description
 
@@ -18,13 +18,13 @@ Make sure you have the following installed:
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/nakib1948/Assignment-2-L2-.git
+   git clone https://github.com/nakib1948/Assignment-2-L2.git
    ```
 
 2. Install dependencies:
 
    ```bash
-   cd Assignment-2-L2-
+   cd Assignment-2-L2
    npm install
    ```
 
