@@ -45,7 +45,7 @@ const deleteUser = async (userId: number): Promise<Iuser | null> => {
   return result;
 };
 
-const addOrder = async (userId: number, orderData) => {
+const addOrder = async (userId: number, orderData): Promise<Iuser | null> => {
   if ((await User.isUserExists(userId)) === null) {
     throw new Error('User donot exists!');
   }
@@ -59,6 +59,15 @@ const addOrder = async (userId: number, orderData) => {
   return result;
 };
 
+const singleUserOrder = async (userId: number): Promise<Iuser | null> => {
+  if ((await User.isUserExists(userId)) === null) {
+    throw new Error('User donot exists!');
+  }
+
+  const result = await User.find({ userId }, { orders: 1 });
+  return result;
+};
+
 export const UserManagementService = {
   createUser,
   getAllUsers,
@@ -66,4 +75,5 @@ export const UserManagementService = {
   updateUser,
   deleteUser,
   addOrder,
+  singleUserOrder,
 };

@@ -151,6 +151,29 @@ const addOrder = async (req: Request, res: Response) => {
   }
 };
 
+const singleUserOrder = async (req: Request, res: Response) => {
+  try {
+    const userId = parseInt(req.params.userId);
+
+    const result = await UserManagementService.singleUserOrder(userId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Order fetched successfully!',
+      data: { orders: result[0].orders },
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: {
+        code: 404,
+        description: error,
+      },
+    });
+  }
+};
+
 export const userController = {
   createUser,
   getAllUsers,
@@ -158,4 +181,5 @@ export const userController = {
   updateUser,
   deleteUser,
   addOrder,
+  singleUserOrder,
 };
