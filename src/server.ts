@@ -9,7 +9,9 @@ async function server() {
     app.listen(port, () => {
       console.log(config.port);
     });
-  } catch (error) {console.log(error)}
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 server().catch((err) => console.log(err));
